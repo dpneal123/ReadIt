@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['title', 'user_id', 'forum_id', 'subtitle','body','published_at'];
+
+//    protected $with = ['author', 'forum'];
+
+    public function author() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function forum() {
+        return $this->belongsTo(Forum::class, 'forum_id');
+    }
+}
