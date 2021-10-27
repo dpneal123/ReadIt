@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Forum;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +18,7 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
-//            $table->foreignId(Forum::class);
+            $table->foreignIdFor(Forum::class);
             $table->string('title');
             $table->string('subtitle');
             $table->longText('body');

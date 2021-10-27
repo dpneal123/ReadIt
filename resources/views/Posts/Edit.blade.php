@@ -22,15 +22,15 @@
                 <label for="body">Main Text</label>
                 <textarea rows="8" class="block rounded-lg" name="body" id="body">{{ $post->body }}</textarea>
             </div>
-{{--            <div class="flex flex-col m-10">--}}
-{{--                <label for="forum_id">Forum</label>--}}
-{{--                <select name="forum_id" id="forum_id">--}}
-{{--                    @foreach($forums as $forum)--}}
-{{--                        <option--}}
-{{--                            value="{{ $forum->id }}" {{ $post->forum->name == $forum->name ? 'selected' : '' }}>{{ $forum->name }}</option>--}}
-{{--                    @endforeach--}}
-{{--                </select>--}}
-{{--            </div>--}}
+            <div class="flex flex-col m-10">
+                <label for="forum_id">Forum</label>
+                <select name="forum_id" id="forum_id">
+                    @foreach($forums as $forum)
+                        <option
+                            value="{{ $forum->id }}" {{ $post->forum->name == $forum->name ? 'selected' : '' }}>{{ $forum->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 {{--            <div class="flex flex-col m-10">--}}
 {{--                <label for="user_id">Author</label>--}}
 {{--                <select name="user_id" id="user_id">--}}

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forum;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-//        return view('Posts.Create', ['forums' => Forum::all('id','name'), 'authors' => User::all('id','name')]);
+//        return view('Posts.Create', ['forums' => Forum::all('id','name')]);
     }
 
     /**
@@ -67,8 +69,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-//        return view('Posts.Edit', ['post' => $post, 'forums' => Forum::all('id','name'), 'authors' => User::all('id','name')]);
-        return view('Posts.Edit', ['post' => $post]);
+        return view('Posts.Edit', ['post' => $post, 'forums' => Forum::all('id','name'), 'authors' => User::all('id','name')]);
     }
 
     /**
@@ -85,7 +86,6 @@ class PostController extends Controller
         $post->subtitle = $request->subtitle;
         $post->body = $request->body;
         $post->forum_id = $request->forum_id;
-        $post->user_id = $request->user_id;
         $post->save();
         return view('Posts.Show', ['post' => $post]);
     }
