@@ -1,13 +1,13 @@
 @section('title', 'Create Post')
-@include('layouts.app', ['header' => 'Posts'])
+@include('layouts.app', ['header' => 'New Post'])
 
 @section('content')
 <div class="flex flex-col">
-    <a class="font-sans font-semibold text-blue-500 hover:text-indigo-400 m-4" href="{{ route('post.index') }}">&#8592;
+    <a class="font-sans font-semibold text-blue-500 hover:text-indigo-400 m-4" href="{{ route('posts.index') }}">&#8592;
         Back to Posts</a>
     <div class="container items-center text-center m-6">
 
-        <form action="{{ route('post.store') }}" method="POST">
+        <form action="{{ route('posts.store') }}" method="POST">
             @csrf
             <div class="flex flex-col m-10">
                 <label for="title">Title</label>

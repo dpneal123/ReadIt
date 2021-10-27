@@ -54,8 +54,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-//        $post = Post::find($id);
-//        return view('Posts.Show', ['post' => $post]);
+        $post = Post::find($id);
+        return view('Posts.Show', ['post' => $post]);
     }
 
     /**
@@ -66,8 +66,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-//        $post = Post::find($id);
+        $post = Post::find($id);
 //        return view('Posts.Edit', ['post' => $post, 'forums' => Forum::all('id','name'), 'authors' => User::all('id','name')]);
+        return view('Posts.Edit', ['post' => $post]);
     }
 
     /**
@@ -79,14 +80,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        $post = Post::find($id);
-//        $post->title = $request->title;
-//        $post->subtitle = $request->subtitle;
-//        $post->body = $request->body;
-//        $post->forum_id = $request->forum_id;
-//        $post->user_id = $request->user_id;
-//        $post->save();
-//        return redirect()->route('post.index');
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->subtitle = $request->subtitle;
+        $post->body = $request->body;
+        $post->forum_id = $request->forum_id;
+        $post->user_id = $request->user_id;
+        $post->save();
+        return view('Posts.Show', ['post' => $post]);
     }
 
     /**
