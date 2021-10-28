@@ -1,5 +1,5 @@
 @section('title', 'Create Post')
-@include('layouts.app', ['header' => 'New Post'])
+@extends('layouts.app', ['header' => 'New Post'])
 
 @section('content')
 <div class="flex flex-col">
@@ -26,14 +26,6 @@
                 <select name="forum_id" id="forum_id">
                     @foreach($forums as $forum)
                         <option value="{{ $forum->id }}">{{ $forum->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="flex flex-col m-10">
-                <label for="user_id">Author</label>
-                <select name="user_id" id="user_id">
-                    @foreach($authors as $author)
-                        <option value="{{ $author->id }}">{{ $author->name }}</option>
                     @endforeach
                 </select>
             </div>

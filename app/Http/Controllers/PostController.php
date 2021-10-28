@@ -17,7 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('Posts.View', ['posts' => Post::orderby('created_at', 'desc')->paginate(100)]);
+        $posts = Post::orderby('created_at', 'desc')->paginate(100);
+        $forums = Forum::orderby('created_at', 'desc')->paginate(10)->where('active', 1);
+        return view('Posts.View', ['posts' => $posts, 'forums' => $forums]);
     }
 
     /**
@@ -27,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-//        return view('Posts.Create', ['forums' => Forum::all('id','name')]);
+        return view('Posts.Create', ['forums' => Forum::all('id','name')]);
     }
 
     /**
@@ -38,14 +40,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-//        $post = new Post();
-//        $post->title = $request->title;
-//        $post->subtitle = $request->subtitle;
-//        $post->body = $request->body;
-//        $post->user()->associate(Auth::user());
-//        $post->forum_id = $request->forum_id;
-//        $post->save();
-//        return redirect()->route('post.index');
+        $post = new Post();
+        $post->title = $request->title;
+        $post->subtitle = $request->subtitle;
+        $post->body = $request->body;
+        $post->author()->associate(Auth::user());
+        $post->forum_id = $request->forum_id;
+        $post->save();
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -98,6 +100,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }

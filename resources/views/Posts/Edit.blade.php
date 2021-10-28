@@ -31,15 +31,6 @@
                     @endforeach
                 </select>
             </div>
-{{--            <div class="flex flex-col m-10">--}}
-{{--                <label for="user_id">Author</label>--}}
-{{--                <select name="user_id" id="user_id">--}}
-{{--                    @foreach($authors as $author)--}}
-{{--                        <option--}}
-{{--                            value="{{ $author->id }}" {{ $post->author->name == $author->name ? 'selected' : '' }}>{{ $author->name }}</option>--}}
-{{--                    @endforeach--}}
-{{--                </select>--}}
-{{--            </div>--}}
             <div class="flex flex-col m-10">
                 <input type="submit" name="UpdatePostButton" value="Submit">
             </div>

@@ -2,7 +2,7 @@
 @extends('layouts.app', ['header' => 'Posts'])
 
 @section('content')
-<div class="grid grid-cols-1 sm:grid-cols-4 ml-10 mr-10">
+<div class="grid grid-cols-1 lg:grid-cols-4 ml-10 mr-10">
     <div class="flex-col col-span-3 m-4 p-4">
     @foreach($posts as $post)
         <div class="rounded shadow-lg">
@@ -29,8 +29,13 @@
         </div>
     @endforeach
     </div>
-    <div class="flex-col hidden sm:flex md:col-span-1">
-        <p>room for activities</p>
+    <div class="flex-col hidden lg:flex lg:col-span-1 m-8">
+        <h1>Forums</h1>
+        @foreach($forums as $forum)
+            <a href="/forums/{{$forum->slug}}" class="rounded shadow-lg p-4 m-4">
+                <h2>{{ $forum->name }}</h2>
+            </a>
+        @endforeach
     </div>
 </div>
 @endsection

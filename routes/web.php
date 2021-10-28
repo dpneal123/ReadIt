@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Models\Forum;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +24,12 @@ Route::resource('/posts', PostController::class);
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/forums/{forum:slug}', function (Forum $forum) {
+    return view('Posts.View', [
+        'posts' => $forum->post->load(['forum', 'author']),
+        'forums' => Forum::orderby('created_at', 'desc')->paginate(10)->where('active', 1)
+    ]);
+});
 
 require __DIR__.'/auth.php';
