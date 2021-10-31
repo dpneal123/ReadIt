@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PostController;
 use App\Models\Forum;
 use Illuminate\Support\Facades\Route;
@@ -16,20 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
-Route::resource('/posts', PostController::class);
+Route::resource('/posts', PostController::class)->middleware(['auth']);
+
+Route::resource('/forums', ForumController::class)->middleware(['auth']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-Route::get('/forums/{forum:slug}', function (Forum $forum) {
-    return view('Posts.View', [
-        'posts' => $forum->post->load(['forum', 'author']),
-        'forums' => Forum::orderby('created_at', 'desc')->paginate(10)->where('active', 1)
-    ]);
-});
+    return redirect('/');
+})->name('dashboard');
 
 require __DIR__.'/auth.php';

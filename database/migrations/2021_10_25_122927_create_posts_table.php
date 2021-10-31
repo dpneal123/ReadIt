@@ -20,7 +20,6 @@ class CreatePostsTable extends Migration
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Forum::class);
             $table->string('title');
-            $table->string('subtitle');
             $table->longText('body');
             $table->timestamps();
         });

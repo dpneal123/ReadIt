@@ -42,7 +42,6 @@ class PostController extends Controller
     {
         $post = new Post();
         $post->title = $request->title;
-        $post->subtitle = $request->subtitle;
         $post->body = $request->body;
         $post->author()->associate(Auth::user());
         $post->forum_id = $request->forum_id;
@@ -85,7 +84,6 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->title = $request->title;
-        $post->subtitle = $request->subtitle;
         $post->body = $request->body;
         $post->forum_id = $request->forum_id;
         $post->save();

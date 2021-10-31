@@ -25,7 +25,6 @@ class PostFactory extends Factory
             'user_id' => $this->faker->numberBetween(1, 10),
             'forum_id' => $this->faker->numberBetween(1, 10),
             'title' => $this->faker->streetName,
-            'subtitle' => $this->faker->sentence,
             'body' => $this->faker->paragraph
         ];
     }

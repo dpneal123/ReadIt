@@ -2,20 +2,15 @@
 @extends('layouts.app', ['header' => 'New Post'])
 
 @section('content')
-<div class="flex flex-col">
-    <a class="font-sans font-semibold text-blue-500 hover:text-indigo-400 m-4" href="{{ route('posts.index') }}">&#8592;
-        Back to Posts</a>
-    <div class="container items-center text-center m-6">
-
+    <div class="flex-auto m-4">
+        <a class="font-sans font-semibold text-blue-500 hover:text-indigo-400 m-4" href="{{ url('/posts') }}">&#8592;
+            Back to Posts</a>
+        <div class="flex-col mx-10 items-center text-center">
         <form action="{{ route('posts.store') }}" method="POST">
             @csrf
             <div class="flex flex-col m-10">
                 <label for="title">Title</label>
                 <textarea rows="2" class="block rounded-lg" name="title" id="title"></textarea>
-            </div>
-            <div class="flex flex-col m-10">
-                <label for="subtitle">Subtitle</label>
-                <textarea rows="4" class="block rounded-lg" name="subtitle" id="subtitle"></textarea>
             </div>
             <div class="flex flex-col m-10">
                 <label for="body">Main Text</label>
@@ -29,8 +24,8 @@
                     @endforeach
                 </select>
             </div>
-            <div class="flex flex-col m-10">
-                <input type="submit" name="CreatePostButton" value="Submit">
+            <div class="flex justify-center m-10">
+                <input @class('px-10 py-4') type="submit" name="UpdatePostButton" value="Submit">
             </div>
         </form>
     </div>
