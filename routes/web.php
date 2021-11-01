@@ -16,16 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+Route::get('/', [PostController::class, 'dashboard']);
+
+Route::get('/dashboard', [PostController::class, 'dashboard'])->name('dashboard');
 
 Route::resource('/posts', PostController::class)->middleware(['auth']);
 
 Route::resource('/forums', ForumController::class)->middleware(['auth']);
-
-Route::get('/dashboard', function () {
-    return redirect('/');
-})->name('dashboard');
 
 require __DIR__.'/auth.php';

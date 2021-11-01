@@ -47,6 +47,10 @@
                     </a>
                 @endif
 
+                    <a class="underline mx-2 text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                        {{ __('New user?') }}
+                    </a>
+
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>

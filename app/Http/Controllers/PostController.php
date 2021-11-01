@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboard()
+    {
+        $posts = Post::orderby('created_at', 'desc')->paginate(100);
+        $forums = Forum::orderby('created_at', 'desc')->paginate(10)->where('active', 1);
+        return view('dashboard', ['posts' => $posts, 'forums' => $forums]);
+    }
+
     /**
      * Display a listing of the resource.
      *
