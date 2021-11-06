@@ -51,7 +51,7 @@
                         {{ __('New user?') }}
                     </a>
 
-                <x-button class="ml-3">
+                <x-button name="login" id="login" class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
             </div>

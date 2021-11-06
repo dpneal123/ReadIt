@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Forum;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -50,18 +51,18 @@ class ForumsTest extends TestCase
 
         $response = $this->actingAs($user)->patch('forums/'.$forum->id, [
             'name' => 'test forum',
-            'description' => 'This is the description of a test forum',
-            'active' => '1',
+            'description' => 'description of a test forum',
+            'active' => 1,
         ]);
 
-        $response->assertStatus(200); // successful HTTP response
+        $response->assertRedirect(route('forums.index'));
     }
 
     public function test_can_user_delete_forum() {
         $user = User::factory()->create();
-        $post = Post::factory()->create();
+        $forum = Forum::factory()->create();
 
-        $response = $this->actingAs($user)->delete('forums/'.$post->id);
+        $response = $this->actingAs($user)->delete('forums/'.$forum->id);
 
         $response->assertRedirect(route('forums.index'));
     }

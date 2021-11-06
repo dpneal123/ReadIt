@@ -18,9 +18,17 @@ class PostController extends Controller
      */
     public function dashboard()
     {
-        $posts = Post::orderby('created_at', 'desc')->paginate(100);
-        $forums = Forum::orderby('created_at', 'desc')->paginate(10)->where('active', 1);
+        $posts = Post::orderby('created_at', 'desc')->paginate(10);
+        $forums = Forum::orderby('created_at', 'desc')->where('active', 1)->take(10)->get();
         return view('dashboard', ['posts' => $posts, 'forums' => $forums]);
+    }
+
+    public function personal()
+    {
+        $user_id = Auth::user()->getAuthIdentifier();
+        $posts = Post::orderby('created_at', 'desc')->where('user_id', $user_id)->paginate(20);
+        $forums = Forum::orderby('created_at', 'desc')->where('active', 1)->take(10)->get();
+        return view('Posts.View', ['posts' => $posts, 'forums' => $forums]);
     }
 
     /**
@@ -31,7 +39,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::orderby('created_at', 'desc')->paginate(100);
-        $forums = Forum::orderby('created_at', 'desc')->paginate(10)->where('active', 1);
+        $forums = Forum::orderby('created_at', 'desc')->where('active', 1)->take(10)->get();
         return view('Posts.View', ['posts' => $posts, 'forums' => $forums]);
     }
 
@@ -42,7 +50,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('Posts.Create', ['forums' => Forum::all('id','name')]);
+        $forums = Forum::orderby('name', 'desc')->where('active', '1')->get();
+        return view('Posts.Create', ['forums' => $forums]);
     }
 
     /**

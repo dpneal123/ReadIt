@@ -32,12 +32,12 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
+                    <x-nav-link id="new_post" :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                         {{ __('New Post') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex sm:mr-10">
-                    <x-nav-link :href="route('forums.create')" :active="request()->routeIs('forums.create')">
+                    <x-nav-link id="new_forum" :href="route('forums.create')" :active="request()->routeIs('forums.create')">
                         {{ __('New Forum') }}
                     </x-nav-link>
                 </div>
@@ -55,10 +55,12 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('posts.personal')">
+                            {{ __('My Posts') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">

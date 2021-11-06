@@ -18,7 +18,7 @@ class ForumController extends Controller
      */
     public function index()
     {
-        $forums = Forum::where('active', '=', '1')->orWhere('user_id', '=', Auth::id())->orderby('created_at', 'desc')->paginate(20);
+        $forums = Forum::where('active', '=', '1')->orWhere('user_id', '=', Auth::user()->getAuthIdentifier())->orderby('created_at', 'desc')->paginate(20);
         return view('Forums.View', ['forums' => $forums]);
     }
 
@@ -65,8 +65,8 @@ class ForumController extends Controller
      */
     public function show(Forum $forum)
     {
-        $posts = Post::orderby('created_at', 'desc')->where('forum_id', '=', $forum->id)->get();
-        $forums = Forum::orderby('name', 'asc')->paginate(10)->where('active', 1);
+        $posts = Post::orderby('created_at', 'desc')->where('forum_id', '=', $forum->id)->paginate(10);
+        $forums = Forum::orderby('name', 'asc')->where('active', 1)->take(10)->get();
         return view('Forums.Show', ['posts' => $posts, 'forums' => $forums, 'current_forum' => $forum]);
     }
 
@@ -96,14 +96,15 @@ class ForumController extends Controller
             'active' => 'required'
         ]);
 
+        $name = $request->name;
+
         $forum->name = $request->name;
+        $forum->slug = str_replace(' ', '-', preg_replace('#[[:punct:]]#', '', strtolower($name)));
         $forum->description = $request->description;
         $forum->active = $request->active;
         $forum->save();
 
-        $posts = Post::orderby('created_at', 'desc')->where('forum_id', '=', $forum->id)->get();
-        $forums = Forum::orderby('name', 'asc')->paginate(10)->where('active', 1);
-        return view('Forums.Show', ['posts' => $posts, 'forums' => $forums, 'current_forum' => $forum]);
+        return redirect()->route('forums.index');
     }
 
     /**

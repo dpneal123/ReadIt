@@ -11,15 +11,15 @@
             @csrf
             <div class="flex flex-col m-10">
                 <label for="title">Title</label>
-                <textarea rows="2" class="block rounded-lg shadow-sm" name="title" id="title">{{ $post->title }}</textarea>
+                <textarea rows="2" class="form-control shadow-sm"  name="title" id="title">{{ $post->title }}</textarea>
             </div>
             <div class="flex flex-col m-10">
                 <label for="body">Main Text</label>
-                <textarea rows="8" class="block rounded-lg" name="body" id="body">{{ $post->body }}</textarea>
+                <textarea rows="8" class="form-control shadow-sm" name="body" id="body">{{ $post->body }}</textarea>
             </div>
             <div class="flex flex-col m-10">
                 <label for="forum_id">Forum</label>
-                <select name="forum_id" id="forum_id">
+                <select class="form-select shadow-sm" name="forum_id" id="forum_id">
                     @foreach($forums as $forum)
                         <option
                             value="{{ $forum->id }}" {{ $post->forum->name == $forum->name ? 'selected' : '' }}>{{ $forum->name }}</option>
@@ -27,7 +27,7 @@
                 </select>
             </div>
             <div class="flex justify-center m-10">
-                <input @class('px-10 py-4') type="submit" name="UpdatePostButton" value="Submit">
+                <input @class('btn btn-primary') type="submit" name="UpdatePostButton" value="Submit">
             </div>
         </form>
     </div>
