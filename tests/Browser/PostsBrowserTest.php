@@ -45,5 +45,9 @@ class PostsBrowserTest extends DuskTestCase
                 ->press('CreatePostButton')
                 ->assertRouteIs('posts.index');
         });
+        $this->assertDatabaseHas('posts', [
+            'title' => 'Dusk Test Post',
+            'body' => 'Body of Dusk test post',
+        ]);
     }
 }

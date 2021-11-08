@@ -19,56 +19,71 @@ class PostsTest extends TestCase
      *
      * @return void
      */
-    public function test_load_posts_page()
+    public function test_load_forums_page()
     {
-        $response = $this->get('/posts');
+        $response = $this->get('/forums');
 
         $response->assertStatus(302);
     }
 
-    public function test_load_post_show_page()
+    public function test_load_forum_show_page()
     {
-        $post = Post::factory()->create();
+        $forum = Forum::factory()->create();
 
-        $response = $this->get('/posts/'.$post->id);
+        $response = $this->get('/forums/'.$forum->id);
 
         $response->assertStatus(302);
     }
 
-    public function test_can_user_create_new_post() {
+    public function test_can_user_create_new_forum() {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('forums', [
+            'name' => 'test forum',
+            'description' => 'This is the description of a test forum',
+            'active' => '1',
+        ]);
+
+        $response->assertRedirect(route('forums.index'));
+
+        $this->assertDatabaseHas('forums', [
+            'name' => 'test forum',
+            'description' => 'This is the description of a test forum',
+            'active' => '1',
+        ]);
+    }
+
+    public function test_can_user_update_forum() {
         $user = User::factory()->create();
         $forum = Forum::factory()->create();
 
-
-        $response = $this->actingAs($user)->post('posts', [
-            'title' => 'test post',
-            'body' => 'This is the body of a test post',
-            'forum_id' => $forum->id,
+        $response = $this->actingAs($user)->patch('forums/'.$forum->id, [
+            'name' => 'test forum update',
+            'description' => 'description of an updated test forum',
+            'active' => 1,
         ]);
 
-        $response->assertRedirect('posts');
+        $response->assertRedirect(route('forums.index'));
+
+        $this->assertDatabaseHas('forums', [
+            'name' => 'test forum update',
+            'description' => 'description of an updated test forum',
+            'active' => 1,
+        ]);
     }
 
-    public function test_can_user_update_post() {
+    public function test_can_user_delete_forum() {
         $user = User::factory()->create();
         $forum = Forum::factory()->create();
-        $post = Post::factory()->create();
 
-        $response = $this->actingAs($user)->patch('posts/'.$post->id, [
-            'title' => 'updated test post',
-            'body' => 'This is the body of a test post',
-            'forum_id' => $forum->id,
+        $response = $this->actingAs($user)->delete('forums/'.$forum->id);
+
+        $response->assertRedirect(route('forums.index'));
+
+        $this->assertDatabaseMissing('forums', [
+            'name' => $forum->title,
+            'description' => $forum->description,
+            'active' => $forum->active,
         ]);
-
-        $response->assertStatus(200); // successful HTTP response
-    }
-
-    public function test_can_user_delete_post() {
-        $user = User::factory()->create();
-        $post = Post::factory()->create();
-
-        $response = $this->actingAs($user)->delete('posts/'.$post->id);
-
-        $response->assertRedirect(route('posts.index'));
     }
 }
