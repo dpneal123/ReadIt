@@ -133,6 +133,10 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
+                    <x-responsive-nav-link :href="route('posts.personal')" :active="request()->routeIs('posts.personal')">
+                        {{ __('My Posts') }}
+                    </x-responsive-nav-link>
+
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">

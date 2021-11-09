@@ -4,7 +4,7 @@
 @section('content')
     <div class="grid grid-cols-1 ml-10 mr-10">
         <div class="flex-col col-span-1 m-4 p-4">
-            <div class="text-center m-6 mt-2">
+            <div class="text-center m-6 mt-0">
                 <a class="btn btn-primary" href="{{ route('posts.create') }}">New Post</a>
                 <a class="btn btn-primary" href="{{ route('forums.create') }}">New Forum</a>
             </div>
