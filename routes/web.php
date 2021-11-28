@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PostController;
 use App\Models\Forum;
@@ -23,6 +24,8 @@ Route::get('/dashboard', [PostController::class, 'dashboard'])->name('dashboard'
 Route::resource('/posts', PostController::class)->middleware(['auth']);
 
 Route::resource('/forums', ForumController::class)->middleware(['auth']);
+
+Route::resource('/comments', CommentController::class)->middleware(['auth']);
 
 Route::get('/my-posts', [PostController::class, 'personal'])->middleware(['auth'])->name('posts.personal');
 

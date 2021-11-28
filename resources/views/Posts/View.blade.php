@@ -19,35 +19,39 @@
                     <div class="m-2">
                         <p class="line-clamp-10 md:line-clamp-none">{{ $post->body }}</p>
                     </div>
+                    <div class="grid grid-cols-2 m-2">
+                        <div class="grid-span-1 pl-4 pt-2">
+                            <p>upvotes</p>
+                        </div>
+                        <div class="grid-span-1 justify-self-end">
+                            @if (Auth::user() && Auth::user()->id === $post->user_id)
+                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                    @endif
 
-                    <div class="m-2">
+                                    <a class="btn btn-primary" href="{{ route('posts.show', $post->id) }}">Show</a>
 
-                        @if (Auth::user() && Auth::user()->id === $post->user_id)
-                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                                @endif
+                                    @if (Auth::user() && Auth::user()->id === $post->user_id)
+                                        <a class="btn btn-secondary"
+                                           href="{{ route('posts.edit', $post->id) }}">Edit</a>
+                                        @csrf
+                                        @method('DELETE')
 
-                                <a class="btn btn-primary" href="{{ route('posts.show', $post->id) }}">Show</a>
-
-                                @if (Auth::user() && Auth::user()->id === $post->user_id)
-                                    <a class="btn btn-secondary" href="{{ route('posts.edit', $post->id) }}">Edit</a>
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        @endif
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 </div>
             @endforeach
-                {{ $posts->links() }}
+            {{ $posts->links() }}
         </div>
-{{--        <div class="flex-col hidden lg:flex lg:col-span-1 m-8">--}}
-{{--            <h1>Suggested Forums</h1>--}}
-{{--            @foreach($forums as $forum)--}}
-{{--                <a href="{{ route('forums.show', $forum) }}" class="m-4 p-4 flex-row bg-gray-200 border-gray-600 border-2 rounded shadow-lg w-full text-left">--}}
-{{--                    <h2>{{ $forum->name }}</h2>--}}
-{{--                </a>--}}
-{{--            @endforeach--}}
-{{--        </div>--}}
+        {{--        <div class="flex-col hidden lg:flex lg:col-span-1 m-8">--}}
+        {{--            <h1>Suggested Forums</h1>--}}
+        {{--            @foreach($forums as $forum)--}}
+        {{--                <a href="{{ route('forums.show', $forum) }}" class="m-4 p-4 flex-row bg-gray-200 border-gray-600 border-2 rounded shadow-lg w-full text-left">--}}
+        {{--                    <h2>{{ $forum->name }}</h2>--}}
+        {{--                </a>--}}
+        {{--            @endforeach--}}
+        {{--        </div>--}}
     </div>
 @endsection

@@ -46,15 +46,15 @@ class ForumController extends Controller
             'active' => 'required'
         ]);
 
-        $forum  = new Forum();
-        $name = $request->name;
-        $forum->name = $request->name;
-        $forum->slug = str_replace(' ', '-', preg_replace('#[[:punct:]]#', '', strtolower($name)));
-        $forum->description = $request->description;
-        $forum->active = $request->active;
-        $forum->author()->associate(Auth::user());
-        $forum->save();
-        return redirect()->route('forums.index');
+            $forum = new Forum();
+            $name = $request->name;
+            $forum->name = $request->name;
+            $forum->slug = str_replace(' ', '-', preg_replace('#[[:punct:]]#', '', strtolower($name)));
+            $forum->description = $request->description;
+            $forum->active = $request->active;
+            $forum->author()->associate(Auth::user());
+            $forum->save();
+            return redirect()->route('forums.index');
     }
 
     /**

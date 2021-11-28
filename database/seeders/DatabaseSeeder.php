@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\Forum;
 use App\Models\Post;
 use App\Models\User;
@@ -20,5 +21,6 @@ class DatabaseSeeder extends Seeder
         User::factory(9)->create();
         Forum::factory(10)->create();
         Post::factory(100)->create();
+        Comment::factory(1000)->create();
     }
 }
