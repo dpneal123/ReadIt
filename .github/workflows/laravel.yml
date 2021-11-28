@@ -28,6 +28,8 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: Create Test Unit Folder
+      run: touch test/Unit
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
