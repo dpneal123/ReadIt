@@ -22,23 +22,43 @@
                         <p class="line-clamp-10 md:line-clamp-none">{{ $post->body }}</p>
                     </div>
 
-                    <div class="m-2">
-
-                        @if (Auth::user() && Auth::user()->id === $post->user_id)
-                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
-                                @endif
-
-                                <a class="btn btn-primary" href="{{ route('posts.show', $post->id) }}">Show</a>
-
-                                @if (Auth::user() && Auth::user()->id === $post->user_id)
-                                    <a class="btn btn-secondary" href="{{ route('posts.edit', $post->id) }}">Edit</a>
+                    @auth
+                        <div class="grid grid-cols-8 mt-4">
+                            <div class="col-span-1 grid grid-cols-2 m-2">
+                                <form class="grid-span-1" action="{{ route('posts.upvote', $post->id) }}" method="POST">
                                     @csrf
-                                    @method('DELETE')
+                                    <button id="upvote" name="upvote" type="submit"
+                                            class="text-xl cursor-pointer @if(DB::table('post_votes')->where(['post_id' => $post->id, 'isUp' => 1, 'user_id' => \Illuminate\Support\Facades\Auth::id()])->exists()) text-green-600 @else text-black @endif">
+                                        &#8593; {{ $post->vote->where('isUp', true)->count() }}</button>
+                                </form>
+                                <form class="grid-span-1" action="{{ route('posts.downvote', $post->id) }}"
+                                      method="POST">
+                                    @csrf
+                                    <button id="downvote" name="downvote" type="submit"
+                                            class="text-xl cursor-pointer @if(DB::table('post_votes')->where(['post_id' => $post->id, 'isUp' => 0, 'user_id' => \Illuminate\Support\Facades\Auth::id()])->exists()) text-red-600 @else text-black @endif"
+                                    ">
+                                    &#8595; {{ $post->vote->where('isUp', false)->count() }}</button>
+                                </form>
+                            </div>
+                            <div class="col-end-8 col-span-2">
+                                @if (Auth::user() && Auth::user()->id === $post->user_id)
+                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                        @endif
 
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        @endif
-                    </div>
+                                        <a class="btn btn-primary" href="{{ route('posts.show', $post->id) }}">Show</a>
+
+                                        @if (Auth::user() && Auth::user()->id === $post->user_id)
+                                            <a class="btn btn-secondary"
+                                               href="{{ route('posts.edit', $post->id) }}">Edit</a>
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
+                    @endauth
                 </div>
             @endforeach
             @auth
