@@ -19,11 +19,23 @@
                     <div class="m-2">
                         <p class="line-clamp-10 md:line-clamp-none">{{ $post->body }}</p>
                     </div>
-                    <div class="grid grid-cols-2 m-2">
-                        <div class="grid-span-1 pl-4 pt-2">
-                            <p>upvotes</p>
+                    <div class="grid grid-cols-8 mt-4">
+                        <div class="col-span-1 grid grid-cols-2">
+                            <form class="grid-span-1" action="{{ route('posts.upvote', $post->id) }}" method="POST">
+                                @csrf
+                                <button id="upvote" name="upvote" type="submit"
+                                        class="text-xl cursor-pointer mx-2">
+                                    &#8593; {{ $post->vote->where('isUp', true)->count() }}</button>
+                            </form>
+                            <form class="grid-span-1" action="{{ route('posts.downvote', $post->id) }}"
+                                  method="POST">
+                                @csrf
+                                <button id="downvote" name="downvote" type="submit"
+                                        class="text-xl cursor-pointer">
+                                    &#8595; {{ $post->vote->where('isUp', false)->count() }}</button>
+                            </form>
                         </div>
-                        <div class="grid-span-1 justify-self-end">
+                        <div class="col-end-8 col-span-2">
                             @if (Auth::user() && Auth::user()->id === $post->user_id)
                                 <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
                                     @endif

@@ -29,4 +29,7 @@ Route::resource('/comments', CommentController::class)->middleware(['auth']);
 
 Route::get('/my-posts', [PostController::class, 'personal'])->middleware(['auth'])->name('posts.personal');
 
+Route::post('/posts/{post}/up-vote', [PostController::class, 'upVote'])->middleware(['auth'])->name('posts.upvote');
+Route::post('/posts/{post}/down-vote', [PostController::class, 'downVote'])->middleware(['auth'])->name('posts.downvote');
+
 require __DIR__.'/auth.php';

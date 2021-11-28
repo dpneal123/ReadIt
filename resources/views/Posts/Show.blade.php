@@ -20,15 +20,17 @@
                 </div>
             </div>
         </div>
-        <h1 class="text-xl m-4">Comments</h1>
+        <h1 class="text-xl mx-4">Comments</h1>
         <form action="{{ route('comments.store', $post->id) }}" method="POST">
             @csrf
-            <div class="flex flex-col m-4">
-                <div class="m-2">
+            <div class="flex flex-col">
+                <div class="mx-4">
                     <label for="comment"></label>
                     <textarea rows="3" class="form-control shadow-sm" name="comment" id="comment"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Add Comment</button>
+                <div class="mx-4 my-4">
+                    <button type="submit" class="btn btn-primary">Add Comment</button>
+                </div>
             </div>
         </form>
         <div class="flex flex-col grid-cols-1 ml-4">

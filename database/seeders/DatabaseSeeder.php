@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Comment;
 use App\Models\Forum;
 use App\Models\Post;
+use App\Models\PostVote;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -22,5 +23,6 @@ class DatabaseSeeder extends Seeder
         Forum::factory(10)->create();
         Post::factory(100)->create();
         Comment::factory(1000)->create();
+        PostVote::factory(1000)->create();
     }
 }

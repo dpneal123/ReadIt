@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Forum;
 use App\Models\Post;
+use App\Models\PostVote;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,7 +58,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -79,7 +80,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -91,20 +92,20 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $post = Post::find($id);
-        return view('Posts.Edit', ['post' => $post, 'forums' => Forum::all('id','name'), 'authors' => User::all('id','name')]);
+        return view('Posts.Edit', ['post' => $post, 'forums' => Forum::all('id', 'name'), 'authors' => User::all('id', 'name')]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -120,7 +121,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -128,5 +129,80 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->delete();
         return redirect()->route('posts.index');
+    }
+
+    protected function voteExists($voteData)
+    {
+        return PostVote::where([
+            'post_id' => $voteData['post_id'],
+            'user_id' => $voteData['user_id'],
+        ])->exists();
+    }
+
+    protected function addVote($post_id, $user_id, $isUp)
+    {
+        $postVote = new PostVote();
+        $postVote->post_id = $post_id;
+        $postVote->user_id = $user_id;
+        $postVote->isUp = $isUp;
+        $postVote->save();
+        return redirect()->route('posts.index');
+    }
+
+    public function upVote($post)
+    {
+        $user = Auth::id();
+
+        if ($this->voteExists([
+            'post_id' => $post,
+            'user_id' => $user
+        ])) {
+            $postVote = PostVote::where([
+                'post_id' => $post,
+                'user_id' => $user
+            ])->get();
+
+            if ($postVote[0]->isUp == 0) {
+                $postVote[0]->delete();
+                return $this->addVote($post, $user, 1);
+            }
+            elseif ($postVote[0]->isUp == 1) {
+                $postVote[0]->delete();
+                return redirect()->route('posts.index');
+            }
+            else {
+                return redirect()->back();
+            }
+        } else {
+            return $this->addVote($post, $user, 1);
+        }
+    }
+
+    public function downVote($post)
+    {
+        $user = Auth::id();
+
+        if ($this->voteExists([
+            'post_id' => $post,
+            'user_id' => $user
+        ])) {
+            $postVote = PostVote::where([
+                'post_id' => $post,
+                'user_id' => $user
+            ])->get();
+            if ($postVote[0]->isUp == 1) {
+                $postVote[0]->delete();
+                return $this->addVote($post, $user, 0);
+            }
+            elseif ($postVote[0]->isUp == 0) {
+                $postVote[0]->delete();
+                return redirect()->route('posts.index');
+            }
+            else {
+                return redirect()->back();
+            }
+        } else {
+            return $this->addVote($post, $user, 0);
+        }
     }
 }
