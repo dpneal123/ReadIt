@@ -58,6 +58,10 @@
                         <x-dropdown-link :href="route('posts.personal')">
                             {{ __('My Posts') }}
                         </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('password.request')">
+                            {{ __('Change Password') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -135,6 +139,10 @@
 
                     <x-responsive-nav-link :href="route('posts.personal')" :active="request()->routeIs('posts.personal')">
                         {{ __('My Posts') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link :href="route('password.request')" :active="request()->routeIs('password.request')">
+                        {{ __('Change Password') }}
                     </x-responsive-nav-link>
 
                     <x-responsive-nav-link :href="route('logout')"
