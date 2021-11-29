@@ -7,10 +7,30 @@ use App\Models\Post;
 use App\Models\PostVote;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class PostController extends Controller
 {
+
+    public function _voteRedirect () {
+        $requestURL = str_replace(App::make('url')->to('/'), '', URL::previous());
+
+        if ($requestURL == '/posts') {
+            return redirect()->route('posts.index');
+        }
+        if ($requestURL == '/my-posts') {
+            return redirect()->route('posts.personal');
+        }
+        if ($requestURL == '/dashboard') {
+            return redirect()->route('dashboard');
+        }
+        if ( substr($requestURL,  0, strrpos( $requestURL, '/')) == '/forums') {
+            return redirect()->route('forums.show', substr($requestURL, strrpos( $requestURL, '/')+1));
+        }
+    }
 
     /**
      * Display a listing of the resource.
@@ -146,7 +166,7 @@ class PostController extends Controller
         $postVote->user_id = $user_id;
         $postVote->isUp = $isUp;
         $postVote->save();
-        return redirect()->route('posts.index');
+        return $this->_voteRedirect();
     }
 
     public function upVote($post)
@@ -168,7 +188,7 @@ class PostController extends Controller
             }
             elseif ($postVote[0]->isUp == 1) {
                 $postVote[0]->delete();
-                return redirect()->route('posts.index');
+                return $this->_voteRedirect();
             }
             else {
                 return redirect()->back();
@@ -196,7 +216,7 @@ class PostController extends Controller
             }
             elseif ($postVote[0]->isUp == 0) {
                 $postVote[0]->delete();
-                return redirect()->route('posts.index');
+                return $this->_voteRedirect();
             }
             else {
                 return redirect()->back();
