@@ -11,12 +11,20 @@ jobs:
 
     runs-on: ubuntu-latest
     
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test
+        ports:
+            - '8888:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    
     steps:
     - uses: actions/checkout@v2
     - name: Set up MySQL
-      run: |
-        sudo /etc/init.d/mysql start
-        mysql -e 'CREATE DATABASE test_db;' -u root
+      run: mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS test;'
     - name: Laravel Setup
       run: |
         cp .env.example .env
@@ -24,9 +32,6 @@ jobs:
         php artisan key:generate
         chmod -R 777 storage bootstrap/cache
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_DATABASE: test_db
-        DB_USER: root
       run: |
         php artisan migrate --seed
         php artisan test
