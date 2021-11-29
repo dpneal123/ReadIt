@@ -16,7 +16,7 @@ jobs:
     - name: Set up MySQL
       run: |
         sudo /etc/init.d/mysql start
-        mysql -e 'CREATE DATABASE test_db;' -u root -p root
+        mysql -e 'CREATE DATABASE test_db;' -u root
     - name: Laravel Setup
       run: |
         cp .env.example .env
@@ -27,7 +27,6 @@ jobs:
       env:
         DB_DATABASE: test_db
         DB_USER: root
-        DB_PASSWORD: root
       run: |
         php artisan migrate --seed
         php artisan test
