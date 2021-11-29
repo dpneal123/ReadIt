@@ -19,71 +19,75 @@ class PostsTest extends TestCase
      *
      * @return void
      */
-    public function test_load_forums_page()
+    public function test_load_posts_page()
     {
-        $response = $this->get('/forums');
+        $response = $this->get('/posts');
 
         $response->assertStatus(302);
     }
 
-    public function test_load_forum_show_page()
+    public function test_load_posts_show_page()
     {
-        $forum = Forum::factory()->create();
+        $post = Post::factory()->create();
 
-        $response = $this->get('/forums/'.$forum->id);
+        $response = $this->get('/posts/'.$post->id);
 
         $response->assertStatus(302);
     }
 
-    public function test_can_user_create_new_forum() {
+    public function test_can_user_create_new_post() {
         $user = User::factory()->create();
+        $post = Post::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->post('forums', [
-            'name' => 'test forum',
-            'description' => 'This is the description of a test forum',
-            'active' => '1',
+        $response = $this->actingAs($user)->post('/posts', [
+            'title' => 'test post',
+            'body' => 'This is the description of a test post',
+            'forum_id' => $post->forum_id,
+            'user_id' => $post->user_id,
         ]);
 
-        $response->assertRedirect(route('forums.index'));
+        $response->assertRedirect();
 
-        $this->assertDatabaseHas('forums', [
-            'name' => 'test forum',
-            'description' => 'This is the description of a test forum',
-            'active' => '1',
+        $this->assertDatabaseHas('posts', [
+            'title' => 'test post',
+            'body' => 'This is the description of a test post',
+            'forum_id' => $post->forum_id,
+            'user_id' => $post->user_id,
         ]);
     }
 
-    public function test_can_user_update_forum() {
+    public function test_can_user_update_post() {
         $user = User::factory()->create();
-        $forum = Forum::factory()->create();
+        $post = Post::factory()->create(['user_id' => $user->id]);
 
-        $response = $this->actingAs($user)->patch('forums/'.$forum->id, [
-            'name' => 'test forum update',
-            'description' => 'description of an updated test forum',
-            'active' => 1,
+        $response = $this->actingAs($user)->patch('posts/'.$post->id, [
+            'title' => 'test post update',
+            'body' => 'This is the description of an updated test post',
+            'user_id' => $post->user_id,
+            'forum_id' => $post->forum_id,
         ]);
 
-        $response->assertRedirect(route('forums.index'));
+        $response->assertSuccessful();
 
-        $this->assertDatabaseHas('forums', [
-            'name' => 'test forum update',
-            'description' => 'description of an updated test forum',
-            'active' => 1,
+        $this->assertDatabaseHas('posts', [
+            'title' => 'test post update',
+            'body' => 'This is the description of an updated test post',
+            'user_id' => $post->user_id,
+            'forum_id' => $post->forum_id,
         ]);
     }
 
-    public function test_can_user_delete_forum() {
+    public function test_can_user_delete_post() {
         $user = User::factory()->create();
-        $forum = Forum::factory()->create();
+        $post = Post::factory()->create();
 
-        $response = $this->actingAs($user)->delete('forums/'.$forum->id);
+        $response = $this->actingAs($user)->delete('posts/'.$post->id);
 
-        $response->assertRedirect(route('forums.index'));
-
-        $this->assertDatabaseMissing('forums', [
-            'name' => $forum->title,
-            'description' => $forum->description,
-            'active' => $forum->active,
+        $this->assertDatabaseMissing('posts', [
+            'title' => $post->title,
+            'body' => $post->body,
+            'user_id' => $post->user_id,
+            'forum_id' => $post->forum_id,
         ]);
     }
 }

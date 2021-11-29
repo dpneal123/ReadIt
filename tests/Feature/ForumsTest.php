@@ -42,7 +42,13 @@ class ForumsTest extends TestCase
             'active' => '1',
         ]);
 
-        $response->assertRedirect(route('forums.index'));
+//        $response->assertRedirect('/forums');
+
+        $this->assertDatabaseHas('forums', [
+            'name' => 'test forum',
+            'description' => 'This is the description of a test forum',
+            'active' => '1',
+        ]);
     }
 
     public function test_can_user_update_forum() {
@@ -50,12 +56,18 @@ class ForumsTest extends TestCase
         $forum = Forum::factory()->create();
 
         $response = $this->actingAs($user)->patch('forums/'.$forum->id, [
-            'name' => 'test forum',
-            'description' => 'description of a test forum',
+            'name' => 'test forum update',
+            'description' => 'description of an updated test forum',
             'active' => 1,
         ]);
 
-        $response->assertRedirect(route('forums.index'));
+//        $response->assertRedirect('/forums');
+
+        $this->assertDatabaseHas('forums', [
+            'name' => 'test forum update',
+            'description' => 'description of an updated test forum',
+            'active' => 1,
+        ]);
     }
 
     public function test_can_user_delete_forum() {
@@ -64,6 +76,12 @@ class ForumsTest extends TestCase
 
         $response = $this->actingAs($user)->delete('forums/'.$forum->id);
 
-        $response->assertRedirect(route('forums.index'));
+//        $response->assertRedirect('/forums');
+
+        $this->assertDatabaseMissing('forums', [
+            'name' => $forum->title,
+            'description' => $forum->description,
+            'active' => $forum->active,
+        ]);
     }
 }
