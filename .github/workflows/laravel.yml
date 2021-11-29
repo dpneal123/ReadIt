@@ -34,5 +34,7 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: |
         php artisan migrate --seed
-        mkdir /tests/Unit
+        cd tests
+        mkdir -p Unit
+        cd ..
         php artisan test
