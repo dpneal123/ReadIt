@@ -27,7 +27,7 @@ jobs:
       run: mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS test;'
     - name: Laravel Setup
       run: |
-        cp .env.example .env
+        cp .env.ci .env
         composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
         php artisan key:generate
         chmod -R 777 storage bootstrap/cache
