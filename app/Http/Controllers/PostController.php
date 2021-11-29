@@ -59,7 +59,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderby('created_at', 'desc')->paginate(100);
+        $posts = Post::orderby('posts.created_at', 'desc')->join('user_forums', function ($join) {
+            $join->on('user_forums.forum_id', '=', 'posts.forum_id')
+                ->where('user_forums.user_id', '=', Auth::id());
+        })->paginate(100);
         $forums = Forum::orderby('created_at', 'desc')->where('active', 1)->take(10)->get();
         return view('Posts.View', ['posts' => $posts, 'forums' => $forums]);
     }

@@ -8,6 +8,17 @@
                 <a class="btn btn-primary" href="{{ route('posts.create') }}">New Post</a>
                 <a class="btn btn-primary" href="{{ route('forums.create') }}">New Forum</a>
             </div>
+            @if(\App\Http\Controllers\ForumController::exists(['user_id' => \Illuminate\Support\Facades\Auth::id(), 'forum_id' => $current_forum->id]))
+                <form class="grid-span-1" action="{{ route('userforum.remove', $current_forum->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success hover:btn-danger">Joined</button>
+                </form>
+            @else
+                <form class="grid-span-1" action="{{ route('userforum.join', $current_forum->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-primary hover:btn-success">Join Forum</button>
+                </form>
+            @endif
             @foreach($posts as $post)
                 <div class="flex-1 m-2 p-8 bg-gray-200 border-gray-600 border-2 rounded shadow-lg w-full text-left">
                     <div class="m-2 mb-0">

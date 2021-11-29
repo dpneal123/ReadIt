@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Forum;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\UserForum;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -118,4 +119,25 @@ class ForumController extends Controller
         $forum->delete();
         return redirect()->route('forums.index');
     }
+
+    public function join($forum) {
+        $userforum = new UserForum();
+        $userforum->user_id = Auth::id();
+        $userforum->forum_id = $forum;
+        $userforum->save();
+        return redirect('/forums/'.$forum);
+    }
+
+    public function remove($forum) {
+        $userforum = UserForum::where(['user_id' => Auth::id(), 'forum_id' => $forum])->get();
+        $userforum[0]->delete();
+        return redirect('/forums/'.$forum);
+    }
+
+    public static function exists($forumData) {
+        return UserForum::where([
+            'forum_id' => $forumData['forum_id'],
+            'user_id' => $forumData['user_id'],])->exists();
+    }
+
 }
