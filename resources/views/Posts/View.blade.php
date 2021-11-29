@@ -31,7 +31,7 @@
                                   method="POST">
                                 @csrf
                                 <button id="downvote" name="downvote" type="submit"
-                                        class="text-xl cursor-pointer @if(DB::table('post_votes')->where(['post_id' => $post->id, 'isUp' => 0, 'user_id' => \Illuminate\Support\Facades\Auth::id()])->exists()) text-red-600 @else text-black @endif"">
+                                        class="text-xl cursor-pointer @if(DB::table('post_votes')->where(['post_id' => $post->id, 'isUp' => 0, 'user_id' => \Illuminate\Support\Facades\Auth::id()])->exists()) text-red-600 @else text-black @endif">
                                     &#8595; {{ $post->vote->where('isUp', false)->count() }}</button>
                             </form>
                         </div>

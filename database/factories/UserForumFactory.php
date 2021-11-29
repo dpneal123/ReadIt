@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\PostVote;
+use App\Models\UserForum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PostVoteFactory extends Factory
+class UserForumFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = PostVote::class;
+    protected $model = UserForum::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,8 @@ class PostVoteFactory extends Factory
     public function definition()
     {
         return [
-            'post_id' => $this->faker->numberBetween(1, 100),
+            'forum_id' => $this->faker->numberBetween(1, 10),
             'user_id' => $this->faker->numberBetween(2,10),
-            'isUp' => $this->faker->numberBetween(0,1),
         ];
     }
 }

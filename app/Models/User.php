@@ -49,4 +49,10 @@ class User extends Authenticatable
     public function vote() {
         return $this->hasMany(PostVote::class);
     }
+
+    public function forum() {
+        return $this->hasMany(UserForum::class);
+    }
+
+
 }

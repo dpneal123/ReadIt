@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PostController;
 use App\Models\Forum;
+use App\Models\UserForum;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,5 +32,8 @@ Route::get('/my-posts', [PostController::class, 'personal'])->middleware(['auth'
 
 Route::post('/posts/{post}/up-vote', [PostController::class, 'upVote'])->middleware(['auth'])->name('posts.upvote');
 Route::post('/posts/{post}/down-vote', [PostController::class, 'downVote'])->middleware(['auth'])->name('posts.downvote');
+
+Route::post('/forums/{forum}/join', [ForumController::class, 'join'])->middleware(['auth'])->name('userforum.join');
+Route::post('/forums/{forum}/remove', [ForumController::class, 'remove'])->middleware(['auth'])->name('userforum.remove');
 
 require __DIR__.'/auth.php';
