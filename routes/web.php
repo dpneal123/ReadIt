@@ -27,6 +27,7 @@ Route::resource('/posts', PostController::class)->middleware(['auth']);
 Route::resource('/forums', ForumController::class)->middleware(['auth']);
 
 Route::resource('/comments', CommentController::class)->middleware(['auth']);
+Route::post('/posts/{post}/add-reply/{comment}', [CommentController::class, 'addReply'])->middleware(['auth'])->name('reply.add');
 
 Route::get('/my-posts', [PostController::class, 'personal'])->middleware(['auth'])->name('posts.personal');
 

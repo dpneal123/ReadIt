@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\CommentReply;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -97,5 +98,16 @@ class CommentController extends Controller
         $post_id = $comment->post_id;
         $comment->delete();
         return redirect()->route('posts.show', $post_id);
+    }
+
+    public function addReply(Request $request, $post, $comment)
+    {
+        $reply = new CommentReply();
+        $reply->comment_id = $comment;
+        $reply->user_id = Auth::id();
+        $reply->reply = $request->replyText;
+        $reply->save();
+
+        return redirect()->route('posts.show', $post);
     }
 }
