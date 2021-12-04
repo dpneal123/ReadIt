@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Comment;
+use App\Models\CommentReply;
 use App\Models\Forum;
 use App\Models\Post;
 use App\Models\PostVote;
@@ -26,5 +27,6 @@ class DatabaseSeeder extends Seeder
         Comment::factory(1000)->create();
         PostVote::factory(1000)->create()->unique();
         UserForum::factory(5)->create()->unique();
+        CommentReply::factory(500)->create();
     }
 }

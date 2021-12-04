@@ -11,6 +11,8 @@ class UserForum extends Model
 
     protected $fillable = ['forum_id', 'user_id', 'created_at', 'updated_at'];
 
+    protected $hidden = ['canEditForumDetails', 'canRemovePost', 'canRemoveComment'];
+
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
