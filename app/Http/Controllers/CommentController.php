@@ -100,14 +100,22 @@ class CommentController extends Controller
         return redirect()->route('posts.show', $post_id);
     }
 
-    public function addReply(Request $request, $post, $comment)
+    public function addReply(Request $request, $postId, $commentId)
     {
         $reply = new CommentReply();
-        $reply->comment_id = $comment;
+        $reply->comment_id = $commentId;
         $reply->user_id = Auth::id();
         $reply->reply = $request->replyText;
         $reply->save();
 
-        return redirect()->route('posts.show', $post);
+        return redirect()->route('posts.show', $postId);
+    }
+
+    public function removeReply($postId, $replyId)
+    {
+        $reply = CommentReply::find($replyId);
+        $reply->delete();
+
+        return redirect()->route('posts.show', $postId);
     }
 }

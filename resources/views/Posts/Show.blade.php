@@ -49,7 +49,6 @@
                         @if (Auth::user() && Auth::user()->id === $comm->user_id)
                             <form action="{{ route('comments.destroy', $comm->id) }}" method="POST">
                                 @csrf
-                                @method('DELETE')
                                 <button type="submit" class="btn btn-danger m-1">Delete</button>
                             </form>
                         @endif
@@ -76,10 +75,21 @@
                     </form>
                 @foreach($comm->reply as $reply)
                     <hr>
-                    <div class="mx-10 my-2">
-                        <p class="text-lg">{{ $reply->author->name }}</p>
-                        <p class="text-md m-2">{{ $reply->reply }}</p>
-                        <p class="text-xs">{{ $reply->created_at }}</p>
+                    <div class="grid grid-cols-5">
+                        <div class="mx-10 my-2 col-span-4">
+                            <p class="text-lg">{{ $reply->author->name }}</p>
+                            <p class="text-md m-2">{{ $reply->reply }}</p>
+                            <p class="text-xs">{{ $reply->created_at }}</p>
+                        </div>
+                        <div class="m-2 col-span-1">
+                            @if (Auth::user() && Auth::user()->id === $reply->user_id)
+                                <form action="{{ route('reply.remove', ['post' => $post->id, 'reply' => $reply->id]) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-danger m-1">Delete</button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
                 </div>
