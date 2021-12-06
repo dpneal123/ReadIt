@@ -11,6 +11,13 @@ use Livewire\Component;
 class Vote extends Component
 {
     public Post $post;
+    public $postCount;
+
+    protected $listeners = ['voteUpdated' => 'voteRefresh'];
+
+    public function voteRefresh() {
+        $this->postCount = Post::count();
+    }
 
     protected function voteExists($voteData)
     {
@@ -32,7 +39,7 @@ class Vote extends Component
     public function upVote($post)
     {
         $user = Auth::id();
-        $postId = $post["id"];
+        $postId = $post;
 
         if ($this->voteExists([
             'post_id' => $postId,
@@ -60,7 +67,7 @@ class Vote extends Component
     public function downVote($post)
     {
         $user = Auth::id();
-        $postId = $post["id"];
+        $postId = $post;
 
         if ($this->voteExists([
             'post_id' => $postId,
@@ -86,7 +93,27 @@ class Vote extends Component
 
     public function render()
     {
-//        dd($this->post);
-        return view('livewire.vote', ['post' => $this->post]);
+        $this->emit('voteUpdated');
+
+        $upOrDown = '';
+
+        for ($x = 0; $x < $this->post['vote']->count(); $x++) {
+            if ($this->post['vote'][$x]->user_id == Auth::id()) {
+                if ($this->post['vote'][$x]->isUp === 1) {
+                    $upOrDown = 'up';
+                    break;
+                }
+                elseif ($this->post['vote'][$x]->isUp === 0) {
+                    $upOrDown = 'down';
+                    break;
+                }
+            }
+            else {
+                // do nothing - move to next vote
+                $upOrDown = 'none';
+            }
+        }
+
+        return view('livewire.vote', ['post' => $this->post, 'upOrDown' => $upOrDown]);
     }
 }

@@ -2,7 +2,7 @@
 @extends('layouts.app' , ['header' => $post->title])
 
 @section('content')
-    <div class="flex flex-col grid-cols-1 ">
+    <div class="flex flex-col grid-cols-1">
         <a class="btn btn-secondary m-2" href="{{ url('/posts') }}">&#8592;
             Back to Posts</a>
         <div class="bg-gray-200 border-gray-600 border-2 shadow-md m-4 rounded-lg">
@@ -17,6 +17,9 @@
                         <p class="text-sm">Last Updated at {{ date_format($post->updated_at, 'd/m/Y H:i:s') }}</p>
                     @endif
                     <p class="text-sm">By {{ $post->author->name }}</p>
+                </div>
+                <div class="text-left">
+                    @livewire('vote', ['post' => $post], key($post->id))
                 </div>
             </div>
         </div>
