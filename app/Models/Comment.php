@@ -24,4 +24,14 @@ class Comment extends Model
     public function reply() {
         return $this->hasMany(CommentReply::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function($comment)
+        {
+            $comment->reply()->delete();
+        });
+    }
 }

@@ -23,4 +23,14 @@ class Forum extends Model
         return $this->hasMany(UserForum::class);
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function($forum)
+        {
+            $forum->post()->delete();
+        });
+    }
+
 }

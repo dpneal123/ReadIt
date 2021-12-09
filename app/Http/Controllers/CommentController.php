@@ -38,19 +38,19 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'comment' => 'required',
-        ]);
-
-        $post_id = str_replace('/comments?','', $request->getRequestUri());
-
-        $comment = new Comment();
-        $comment->post_id = $post_id;
-        $comment->author()->associate(Auth::user());
-        $comment->comment = $request->comment;
-        $comment->save();
-
-        return redirect()->route('posts.show', $post_id);
+//        $request->validate([
+//            'comment' => 'required',
+//        ]);
+//
+//        $post_id = str_replace('/comments?','', $request->getRequestUri());
+//
+//        $comment = new Comment();
+//        $comment->post_id = $post_id;
+//        $comment->author()->associate(Auth::user());
+//        $comment->comment = $request->comment;
+//        $comment->save();
+//
+//        return redirect()->route('posts.show', $post_id);
     }
 
     /**
