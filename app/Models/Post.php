@@ -31,4 +31,14 @@ class Post extends Model
         return $this->hasMany(PostVote::class);
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function($post)
+        {
+            $post->comment()->delete();
+        });
+    }
+
 }

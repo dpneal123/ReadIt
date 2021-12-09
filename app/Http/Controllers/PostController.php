@@ -59,7 +59,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderby('posts.created_at', 'desc')->join('user_forums', function ($join) {
+        $posts = Post::select('posts.*')->orderby('posts.created_at', 'desc')->join('user_forums', function ($join) {
             $join->on('user_forums.forum_id', '=', 'posts.forum_id')
                 ->where('user_forums.user_id', '=', Auth::id());
         })->paginate(100);
@@ -154,78 +154,78 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    protected function voteExists($voteData)
-    {
-        return PostVote::where([
-            'post_id' => $voteData['post_id'],
-            'user_id' => $voteData['user_id'],
-        ])->exists();
-    }
-
-    protected function addVote($post_id, $user_id, $isUp)
-    {
-        $postVote = new PostVote();
-        $postVote->post_id = $post_id;
-        $postVote->user_id = $user_id;
-        $postVote->isUp = $isUp;
-        $postVote->save();
-        return $this->_voteRedirect();
-    }
-
-    public function upVote($post)
-    {
-        $user = Auth::id();
-
-        if ($this->voteExists([
-            'post_id' => $post,
-            'user_id' => $user
-        ])) {
-            $postVote = PostVote::where([
-                'post_id' => $post,
-                'user_id' => $user
-            ])->get();
-
-            if ($postVote[0]->isUp == 0) {
-                $postVote[0]->delete();
-                return $this->addVote($post, $user, 1);
-            }
-            elseif ($postVote[0]->isUp == 1) {
-                $postVote[0]->delete();
-                return $this->_voteRedirect();
-            }
-            else {
-                return redirect()->back();
-            }
-        } else {
-            return $this->addVote($post, $user, 1);
-        }
-    }
-
-    public function downVote($post)
-    {
-        $user = Auth::id();
-
-        if ($this->voteExists([
-            'post_id' => $post,
-            'user_id' => $user
-        ])) {
-            $postVote = PostVote::where([
-                'post_id' => $post,
-                'user_id' => $user
-            ])->get();
-            if ($postVote[0]->isUp == 1) {
-                $postVote[0]->delete();
-                return $this->addVote($post, $user, 0);
-            }
-            elseif ($postVote[0]->isUp == 0) {
-                $postVote[0]->delete();
-                return $this->_voteRedirect();
-            }
-            else {
-                return redirect()->back();
-            }
-        } else {
-            return $this->addVote($post, $user, 0);
-        }
-    }
+//    protected function voteExists($voteData)
+//    {
+//        return PostVote::where([
+//            'post_id' => $voteData['post_id'],
+//            'user_id' => $voteData['user_id'],
+//        ])->exists();
+//    }
+//
+//    protected function addVote($post_id, $user_id, $isUp)
+//    {
+//        $postVote = new PostVote();
+//        $postVote->post_id = $post_id;
+//        $postVote->user_id = $user_id;
+//        $postVote->isUp = $isUp;
+//        $postVote->save();
+//        return $this->_voteRedirect();
+//    }
+//
+//    public function upVote($post)
+//    {
+//        $user = Auth::id();
+//
+//        if ($this->voteExists([
+//            'post_id' => $post,
+//            'user_id' => $user
+//        ])) {
+//            $postVote = PostVote::where([
+//                'post_id' => $post,
+//                'user_id' => $user
+//            ])->get();
+//
+//            if ($postVote[0]->isUp == 0) {
+//                $postVote[0]->delete();
+//                return $this->addVote($post, $user, 1);
+//            }
+//            elseif ($postVote[0]->isUp == 1) {
+//                $postVote[0]->delete();
+//                return $this->_voteRedirect();
+//            }
+//            else {
+//                return redirect()->back();
+//            }
+//        } else {
+//            return $this->addVote($post, $user, 1);
+//        }
+//    }
+//
+//    public function downVote($post)
+//    {
+//        $user = Auth::id();
+//
+//        if ($this->voteExists([
+//            'post_id' => $post,
+//            'user_id' => $user
+//        ])) {
+//            $postVote = PostVote::where([
+//                'post_id' => $post,
+//                'user_id' => $user
+//            ])->get();
+//            if ($postVote[0]->isUp == 1) {
+//                $postVote[0]->delete();
+//                return $this->addVote($post, $user, 0);
+//            }
+//            elseif ($postVote[0]->isUp == 0) {
+//                $postVote[0]->delete();
+//                return $this->_voteRedirect();
+//            }
+//            else {
+//                return redirect()->back();
+//            }
+//        } else {
+//            return $this->addVote($post, $user, 0);
+//        }
+//    }
 }
