@@ -27,14 +27,7 @@ Route::resource('/posts', PostController::class)->middleware(['auth']);
 
 Route::resource('/forums', ForumController::class)->middleware(['auth']);
 
-Route::resource('/comments', CommentController::class)->middleware(['auth']);
-Route::post('/posts/{post}/add-reply/{comment}', [CommentController::class, 'addReply'])->middleware(['auth'])->name('reply.add');
-Route::post('/posts/{post}/remove-reply/{reply}', [CommentController::class, 'removeReply'])->middleware(['auth'])->name('reply.remove');
-
 Route::get('/my-posts', [PostController::class, 'personal'])->middleware(['auth'])->name('posts.personal');
-
-Route::post('/posts/{post}/up-vote', [Vote::class, 'upVote'])->middleware(['auth'])->name('posts.upvote');
-Route::post('/posts/{post}/down-vote', [Vote::class, 'downVote'])->middleware(['auth'])->name('posts.downvote');
 
 Route::post('/forums/{forum}/join', [ForumController::class, 'join'])->middleware(['auth'])->name('userforum.join');
 Route::post('/forums/{forum}/remove', [ForumController::class, 'remove'])->middleware(['auth'])->name('userforum.remove');
