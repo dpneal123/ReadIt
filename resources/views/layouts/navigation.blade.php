@@ -22,12 +22,17 @@
                             {{ __('Forums') }}
                         </x-nav-link>
                     </div>
-                @else
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('search.index')" :active="request()->routeIs('search.index')">
+                            {{ __('Search') }}
+                        </x-nav-link>
+                    </div>
+                @else
+{{--                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">--}}
 {{--                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">--}}
 {{--                            {{ __('Dashboard') }}--}}
 {{--                        </x-nav-link>--}}
-                    </div>
+{{--                    </div>--}}
                 @endauth
             </div>
         <!-- Settings Dropdown -->
@@ -132,6 +137,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('forums.index')" :active="request()->routeIs('forums.index')">
                     {{ __('Forums') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('search.index')" :active="request()->routeIs('search.index')">
+                    {{ __('Search') }}
                 </x-responsive-nav-link>
             @else
 {{--                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">--}}

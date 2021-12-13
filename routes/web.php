@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SearchController;
 use App\Http\Livewire\Vote;
 use App\Models\Forum;
 use App\Models\UserForum;
@@ -32,5 +33,6 @@ Route::get('/my-posts', [PostController::class, 'personal'])->middleware(['auth'
 Route::post('/forums/{forum}/join', [ForumController::class, 'join'])->middleware(['auth'])->name('userforum.join');
 Route::post('/forums/{forum}/remove', [ForumController::class, 'remove'])->middleware(['auth'])->name('userforum.remove');
 
+Route::get('/search', [SearchController::class, 'index'])->middleware(['auth'])->name('search.index');
 
 require __DIR__.'/auth.php';
