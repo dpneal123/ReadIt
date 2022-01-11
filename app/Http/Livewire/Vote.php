@@ -34,6 +34,7 @@ class Vote extends Component
             'user_id' => $user_id,
             'isUp' => $isUp
         ]);
+        $this->emit('voteUpdated');
     }
 
     public function upVote($post)
