@@ -2,13 +2,17 @@
 
 namespace Tests\Browser;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class PostsBrowserTest extends DuskTestCase
 {
+    use WithoutMiddleware;
     /**
      * A Dusk test example.
      *
@@ -34,8 +38,12 @@ class PostsBrowserTest extends DuskTestCase
 
     public function test_create_post()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/')
+        $user = User::factory()->create();
+
+        Auth::login($user);
+
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user->id)->visit('/posts')
                 ->assertVisible('#new_post')
                 ->visit(
                     $browser->attribute('#new_post', 'href')
@@ -43,11 +51,33 @@ class PostsBrowserTest extends DuskTestCase
                 ->type('title', 'Dusk Test Post')
                 ->type('body', 'Body of Dusk test post')
                 ->press('CreatePostButton')
-                ->assertRouteIs('posts.index');
+                ->assertRouteIs('posts.personal');
         });
         $this->assertDatabaseHas('posts', [
             'title' => 'Dusk Test Post',
             'body' => 'Body of Dusk test post',
         ]);
     }
+
+    public function test_update_post() {
+        $user = User::factory()->create();
+
+        Auth::login($user);
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/my-posts')
+                ->type('title', 'Dusk Updated Test Post')
+                ->type('body', 'Body of Updated Dusk test post')
+                ->press('UpdatePostButton')
+                ->assertRouteIs('posts.personal');
+        });
+        $this->assertDatabaseHas('posts', [
+            'title' => 'Dusk Test Post',
+            'body' => 'Body of Dusk test post',
+        ]);
+    }
+
+//    public function test_delete_post() {
+//
+//    }
 }

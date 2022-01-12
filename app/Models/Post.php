@@ -38,6 +38,7 @@ class Post extends Model
         static::deleted(function($post)
         {
             $post->comment()->delete();
+            $post->vote()->delete();
         });
     }
 

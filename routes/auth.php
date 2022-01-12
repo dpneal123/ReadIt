@@ -15,7 +15,7 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
                 ->name('register');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
-                ->middleware('guest');
+                ->middleware('guest', '2fa');
 
 Route::get('/complete-registration', [RegisteredUserController::class, 'completeRegister'])
                 ->middleware('guest');
