@@ -8,6 +8,7 @@
                 <a class="btn btn-primary" href="{{ route('posts.create') }}">New Post</a>
                 <a class="btn btn-primary" href="{{ route('forums.create') }}">New Forum</a>
             </div>
+            @if(count($posts) > 0)
             @foreach($posts as $post)
                 <div class="flex-1 m-2 p-8 bg-gray-200 border-gray-600 border-2 rounded shadow-lg w-full text-left">
                     <a class="" href="{{ route('forums.show', $post->forum) }}">
@@ -21,19 +22,6 @@
                     </div>
                     <div class="grid grid-cols-8 mt-4">
                         <div class="col-span-1">
-{{--                            <form class="grid-span-1" action="{{ route('posts.upvote', $post->id) }}" method="POST">--}}
-{{--                                @csrf--}}
-{{--                                <button id="upvote" name="upvote" type="submit"--}}
-{{--                                        class="text-xl cursor-pointer mx-2 @if(DB::table('post_votes')->where(['post_id' => $post->id, 'isUp' => 1, 'user_id' => \Illuminate\Support\Facades\Auth::id()])->exists()) text-green-600 @else text-black @endif">--}}
-{{--                                    &#8593; {{ $post->vote->where('isUp', true)->count() }}</button>--}}
-{{--                            </form>--}}
-{{--                            <form class="grid-span-1" action="{{ route('posts.downvote', $post->id) }}"--}}
-{{--                                  method="POST">--}}
-{{--                                @csrf--}}
-{{--                                <button id="downvote" name="downvote" type="submit"--}}
-{{--                                        class="text-xl cursor-pointer @if(DB::table('post_votes')->where(['post_id' => $post->id, 'isUp' => 0, 'user_id' => \Illuminate\Support\Facades\Auth::id()])->exists()) text-red-600 @else text-black @endif">--}}
-{{--                                    &#8595; {{ $post->vote->where('isUp', false)->count() }}</button>--}}
-{{--                            </form>--}}
                             @livewire('vote', ['post' => $post], key($post->id))
                         </div>
                         <div class="col-end-8 col-span-2">
@@ -56,6 +44,11 @@
                     </div>
                 </div>
             @endforeach
+            @else
+                <div class="text-center">
+                    <a href="/forums">Join forums to see posts here!</a>
+                </div>
+            @endif
             {{ $posts->links() }}
         </div>
         {{--        <div class="flex-col hidden lg:flex lg:col-span-1 m-8">--}}
