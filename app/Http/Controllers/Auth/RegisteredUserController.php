@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
         $request->session()->flash('registration_data', $registration_data);
 
         $inlineUrl = $google2fa->getQRCodeInline(
-            $registration_data['name'],
+            'ReadIt',
             $registration_data['email'],
             $registration_data['google2fa_secret'],
         );
@@ -72,6 +72,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('2fa');
+        return redirect()->route('dashboard');
     }
 }

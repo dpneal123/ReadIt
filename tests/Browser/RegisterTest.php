@@ -4,11 +4,13 @@ namespace Tests\Browser;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class RegisterTest extends DuskTestCase
 {
+    use WithoutMiddleware;
     /**
      * A Dusk test example.
      *
@@ -25,7 +27,12 @@ class RegisterTest extends DuskTestCase
                 ->type('password', 'password')
                 ->type('password_confirmation', 'password')
                 ->press('register')
+                ->assertSee('Google Authenticator')
+                ->press('Complete Registration')
                 ->assertPathIs('/dashboard');
         });
     }
+
+
+
 }

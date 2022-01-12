@@ -91,20 +91,21 @@ class ForumController extends Controller
      */
     public function update(Request $request, Forum $forum)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'active' => 'required'
-        ]);
+//        $request->validate([
+//            'name' => 'required',
+//            'description' => 'required',
+//            'active' => 'required'
+//        ]);
 
-        $name = $request->name;
+//        if (Auth::id() == $forum->user_id) {
+            $name = $request->name;
 
-        $forum->name = $request->name;
-        $forum->slug = str_replace(' ', '-', preg_replace('#[[:punct:]]#', '', strtolower($name)));
-        $forum->description = $request->description;
-        $forum->active = $request->active;
-        $forum->save();
-
+            $forum->name = $request->name;
+            $forum->slug = str_replace(' ', '-', preg_replace('#[[:punct:]]#', '', strtolower($name)));
+            $forum->description = $request->description;
+            $forum->active = $request->active;
+            $forum->save();
+//        }
         return redirect()->route('forums.index');
     }
 
@@ -116,7 +117,9 @@ class ForumController extends Controller
      */
     public function destroy(Forum $forum)
     {
-        $forum->delete();
+//        if (Auth::id() == $forum->user_id) {
+            $forum->delete();
+//        }
         return redirect()->route('forums.index');
     }
 

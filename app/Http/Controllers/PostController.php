@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\URL;
 
 class PostController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware(['auth', '2fa']);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -84,7 +79,7 @@ class PostController extends Controller
         $post->author()->associate(Auth::user());
         $post->forum_id = $request->forum_id;
         $post->save();
-        return redirect()->route('posts.personal');
+        return redirect()->intended('/my-posts');
     }
 
     /**
@@ -108,7 +103,9 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-        return view('Posts.Edit', ['post' => $post, 'forums' => Forum::all('id', 'name'), 'authors' => User::all('id', 'name')]);
+        if (Auth::id() == $post->user_id) {
+            return view('Posts.Edit', ['post' => $post, 'forums' => Forum::all('id', 'name'), 'authors' => User::all('id', 'name')]);
+        }
     }
 
     /**
@@ -121,11 +118,13 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::find($id);
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->forum_id = $request->forum_id;
-        $post->save();
-        return redirect()->route('posts.personal');
+        if (Auth::id() == $post->user_id) {
+            $post->title = $request->title;
+            $post->body = $request->body;
+            $post->forum_id = $request->forum_id;
+            $post->save();
+            return view('Posts.Show', ['post' => $post]);
+        }
     }
 
     /**
@@ -137,7 +136,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
-        $post->delete();
-        return redirect(URL()->previous());
+        if (Auth::id() == $post->user_id) {
+            $post->delete();
+        }
+        return redirect()->route('posts.index');
     }
 }

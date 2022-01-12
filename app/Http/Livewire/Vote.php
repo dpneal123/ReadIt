@@ -15,6 +15,11 @@ class Vote extends Component
 
     protected $listeners = ['voteUpdated' => 'voteRefresh'];
 
+    public function mount(Post $post)
+    {
+        $this->post = $post;
+    }
+
     public function voteRefresh() {
         $this->postCount = Post::count();
     }
@@ -27,7 +32,7 @@ class Vote extends Component
         ])->exists();
     }
 
-    protected function addVote($post_id, $user_id, $isUp)
+    public function addVote($post_id, $user_id, $isUp)
     {
         PostVote::create([
             'post_id' => $post_id,
