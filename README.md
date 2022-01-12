@@ -84,11 +84,11 @@ Create a new forum using the **New Forum** nav link or button
 
 Access your own posts by clicking on the dropdown in the top right
 
-![User Dropdown](./ReadMeImages/User_Dropdown.png "User Dropdown")
+![User Dropdown](./ReadMeImages/AccountOptions.png "User Dropdown")
 
 And clicking **My Posts**
 
-![My Posts](./ReadMeImages/My_Posts1.png "My Posts")
+![My Posts](./ReadMeImages/my_posts1.png "My Posts")
 
 This shows the post that belong to the current user, and allow the posts to be edited or deleted.
 These options can also be found in the posts view and within forums
