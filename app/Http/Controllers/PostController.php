@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\URL;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', '2fa']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -79,7 +84,7 @@ class PostController extends Controller
         $post->author()->associate(Auth::user());
         $post->forum_id = $request->forum_id;
         $post->save();
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.personal');
     }
 
     /**
@@ -120,7 +125,7 @@ class PostController extends Controller
         $post->body = $request->body;
         $post->forum_id = $request->forum_id;
         $post->save();
-        return view('Posts.Show', ['post' => $post]);
+        return redirect()->route('posts.personal');
     }
 
     /**
@@ -133,6 +138,6 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->delete();
-        return redirect()->route('posts.index');
+        return redirect(URL()->previous());
     }
 }

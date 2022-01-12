@@ -23,7 +23,6 @@
                         <option value="{{ $forum->id }}">{{ $forum->name }}</option>
                     @endforeach
                 </select>
-                <a class="btn btn-secondary" href="{{ route('forums.create') }}">New Forum</a>
             </div>
             <div class="flex justify-center m-10">
                 <input @class('btn btn-primary') type="submit" name="CreatePostButton" value="Submit">

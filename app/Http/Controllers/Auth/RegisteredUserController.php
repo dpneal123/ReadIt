@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use PragmaRX\Google2FAQRCode\Google2FA;
 
 class RegisteredUserController extends Controller
 {
@@ -39,16 +40,38 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $google2fa = app('pragmarx.google2fa');
+
+        $registration_data = $request->all();
+
+        $registration_data["google2fa_secret"] = $google2fa->generateSecretKey();
+
+        $request->session()->flash('registration_data', $registration_data);
+
+        $inlineUrl = $google2fa->getQRCodeInline(
+            $registration_data['name'],
+            $registration_data['email'],
+            $registration_data['google2fa_secret'],
+        );
+
+        return view('auth.google-2fa', ['inlineURL' => $inlineUrl, 'secret' => $registration_data['google2fa_secret']]);
+    }
+
+    public function completeRegister(Request $request) {
+
+        $registration_data = $request->session()->get('registration_data');
+
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $registration_data['name'],
+            'email' => $registration_data['email'],
+            'password' => Hash::make($registration_data['password']),
+            'google2fa_secret' => $registration_data['google2fa_secret'],
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('2fa');
     }
 }

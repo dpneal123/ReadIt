@@ -24,9 +24,9 @@ Route::get('/', [PostController::class, 'dashboard']);
 
 Route::get('/dashboard', [PostController::class, 'dashboard'])->name('dashboard');
 
-Route::resource('/posts', PostController::class)->middleware(['auth']);
+Route::resource('/posts', PostController::class)->middleware(['auth', '2fa']);
 
-Route::resource('/forums', ForumController::class)->middleware(['auth']);
+Route::resource('/forums', ForumController::class)->middleware(['auth', '2fa']);
 
 Route::get('/my-posts', [PostController::class, 'personal'])->middleware(['auth'])->name('posts.personal');
 
@@ -34,5 +34,9 @@ Route::post('/forums/{forum}/join', [ForumController::class, 'join'])->middlewar
 Route::post('/forums/{forum}/remove', [ForumController::class, 'remove'])->middleware(['auth'])->name('userforum.remove');
 
 Route::get('/search', [SearchController::class, 'index'])->middleware(['auth'])->name('search.index');
+
+Route::post('/2fa', function () {
+    return redirect(URL()->previous());
+})->name('2fa')->middleware('2fa');
 
 require __DIR__.'/auth.php';
