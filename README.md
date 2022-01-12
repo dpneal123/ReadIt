@@ -58,14 +58,21 @@ The functionality when not logged in is limited, the user will be redirected to 
 
 ![Login Page](./ReadMeImages/Login1.png "Login Page")
 
-You can login using the admin details in the final step of the installation above 
-or click the **'New User?'** or **Register** links to create your own account
+Click the **'New User?'** or **Register** links to create your own account
+
+![Register](./ReadMeImages/RegisterScreen.png "Register Screen")
+
+Enter name, email and password and press register
+
+Open Google Authenticator app, add new QR Code and press Complete Registration
+
+![Google Auth](./ReadMeImages/GA.png "Google Auth Screen")
 
 ![Logged In Dashboard View](./ReadMeImages/Dashboard_Auth.png "Logged in Dashboard View")
 
 Now you have the ability to access all features, you can view a full post by clicking **Show**
 
-![Post Show Page](./ReadMeImages/Post_Show.png "Post Show View")
+![Post Show Page](./ReadMeImages/PostsView1.png "Post Show View")
 
 You can create a new post by clicking **New Post** in the nav bar, or a New Post button in the posts and forums views
 
@@ -81,7 +88,7 @@ Access your own posts by clicking on the dropdown in the top right
 
 And clicking **My Posts**
 
-![My Posts](./ReadMeImages/My_Posts.png "My Posts")
+![My Posts](./ReadMeImages/My_Posts1.png "My Posts")
 
 This shows the post that belong to the current user, and allow the posts to be edited or deleted.
 These options can also be found in the posts view and within forums
@@ -91,6 +98,8 @@ These options can also be found in the posts view and within forums
 The **Posts** nav link takes the user to the Posts.View view with the 100 most recent posts
 
 ![Posts View](./ReadMeImages/Posts_View.png "Posts View")
+
+Up or downvote posts by clicking the arrows
 
 A new post or forum can be created by the nav bar links at the top, or the buttons at the top of this page, as well as a few others
 
@@ -108,7 +117,6 @@ The owner of the forum can also edit (name, description, active status) or delet
 
 This forum is currently inactive, as shown by the red background of the forum's card in the forums view and the unticked 'Active Forum' checkbox
 
-
 To log out, click the **Log Out** link in the dropdown in the top right of the screen
 
 ### Future Plans
@@ -120,5 +128,3 @@ To log out, click the **Log Out** link in the dropdown in the top right of the s
 3. Events/notifications to keep track of the above
 4. Update UI
 5. Differentiate more between Dashboard, Posts.View and Forums.Show
-
-
