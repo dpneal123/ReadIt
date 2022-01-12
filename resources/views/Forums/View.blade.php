@@ -28,6 +28,7 @@
                     </form>
                 @endif
                     </div>
+                    <p>{{ $forum->post()->count() }} posts</p>
                 </div>
             </div>
             @endforeach

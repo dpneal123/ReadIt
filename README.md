@@ -5,24 +5,22 @@ blog for standalone forum
 
 ### Installation
 1. Download/clone the code package
-2. Composer install dependencies - 'composer update'
-3. Copy .env.example, create new file called .env
-4. run 'php artisan key:generate'
+2. Composer install dependencies - 'composer install'
+3. Copy .env.ci, create new file called .env
+4. run 'php artisan key:generate' in terminal
 5. Start web server PHP/MySQL
 6. Create database for project
 7. Update .env file with MySQL settings
 8. Update .env file with APP_URL
     1. (default is http://localhost, may need to change to index URL when 'php artisan serve' e.g. http://127.0.0.1)
-9. run 'php artisan migrate:fresh'
-10. run 'php artisan dusk:install'
+9. run 'php artisan migrate:fresh' in terminal
+10. run 'php artisan dusk:install' in terminal
     1. delete ExampleTest.php from /tests/Browser as it will fail
 11. Create 'Unit' folder in /tests
-12. run 'php artisan serve'
-13. (in another terminal instance as website needs to be running) run 'php artisan test && php artisan dusk'
-14. If tests are passed, the test data can be replaced using 'php artisan migrate:fresh --seed' 
-15. If database is seeded as above, test user account details are:
-    1. email => 'admin@email.com'
-    2. password => 'password'
+12. run 'npm run dev' in terminal
+13. run 'php artisan serve' in terminal
+14. (open new terminal instance as web service needs to be running) run 'php artisan test && php artisan dusk'
+15. Test data can be replaced using 'php artisan migrate:fresh --seed'
 
 ### Features
 
@@ -40,6 +38,14 @@ The Forums tab contain all active forums, as well as forums that were created by
 (If only active forums were shown, it would be difficult to make a forum active)
 
 If a user selects a forum from the forums tab they will be shown all posts written in that forum
+
+The website now features 2FA to access the posts or forums when logging in - scrolling the limited posts on the dashboard does not require 2FA
+
+Users can now up and down vote posts when logged in, as well as comment on posts and reply to comments
+
+Features have been updated to use Livewire, meaning the UI can be updated without refreshing
+
+New search function makes it easy to find interesting posts and forums
 
 ### Usage Instructions
 
@@ -110,23 +116,9 @@ To log out, click the **Log Out** link in the dropdown in the top right of the s
 1. Forum creators can add admins/moderators to their forums
    1. Allow creators, admins & moderators to delete posts in said forum
    2. Creator/admin can edit forum info or mark as active/inactive
-2. Allow users to like/save/comment on posts 
-   1. Like/save on all posts
-   2. Only allow comments on posts in forums the user is a part of
-3. Allow replies to comments
-4. Allow users to join forums instead of user being in all forums on account creation
-5. Allow forums (and by extension the posts in them) to be private until user is accepted to the forum
-6. Events/notifications to keep track of the above?
-7. Update UI
-8. Add email functionality for registering and resetting forgotten password
-9. Infinite scroll instead of pagination
-10. Add featured posts, forums (most popular) to dashboard
-11. Differentiate more between Dashboard, Posts.View and Forums.Show
-
-
-### Current Bugs
-
-1. Deleting a post in 'My Posts' returns to route('posts.index') instead of posts.personal
-2. Editing a post in 'My Posts' returns to the Post.Show View, but when you press 'Back to Posts', it returns to route('posts.index') instead of posts.personal
+2. Allow forums (and by extension the posts in them) to be private until user is accepted to the forum
+3. Events/notifications to keep track of the above
+4. Update UI
+5. Differentiate more between Dashboard, Posts.View and Forums.Show
 
 
